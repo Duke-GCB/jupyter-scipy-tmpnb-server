@@ -2,7 +2,14 @@
 
 # This script starts a tmpnb server using docker, with a user-configurable jupyter notebook container
 
-NOTEBOOK_PASSWORD="secret" # The password users will have to provide to access a notebook
+if [ -z "$1" ]; then
+  echo "Usage: $0 <notebook_password>"
+  echo
+  echo "notebook_password should be a simple password users will use to access the tmpnb server"
+  exit 1
+fi
+
+NOTEBOOK_PASSWORD=$1 # The password users will have to provide to access a notebook
 
 # Can use "jupyter/scipy-notebook" once they merge https://github.com/jupyter/docker-stacks/issues/353
 NOTEBOOK_IMAGE="dukegcb/scipy-notebook-with-xelatex"
@@ -12,8 +19,13 @@ INTERNAL_PORT=$(($EXTERNAL_PORT+1))
 TOKEN=$( head -c 30 /dev/urandom | xxd -p )
 
 # Clear out any existing containers
-docker rm -f proxy tmpnb
-docker rm -f $(docker ps --filter=ancestor=${NOTEBOOK_IMAGE} -a -q)
+docker rm -f proxy tmpnb 2> /dev/null
+
+OLD_NOTEBOOKS=$(docker ps --filter=ancestor=${NOTEBOOK_IMAGE} -a -q)
+
+if [ "$OLD_NOTEBOOKS" ]; then
+  docker rm -f $OLD_NOTEBOOKS
+fi
 
 # First, pull the notebook image. The orchestration container (tmpnb) will not pull the notebook image before launching
 docker pull ${NOTEBOOK_IMAGE}
