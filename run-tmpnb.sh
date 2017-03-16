@@ -12,7 +12,7 @@ fi
 NOTEBOOK_PASSWORD=$1 # The password users will have to provide to access a notebook
 
 # Can use "jupyter/scipy-notebook" once they merge https://github.com/jupyter/docker-stacks/issues/353
-NOTEBOOK_IMAGE="dukegcb/scipy-notebook-with-xelatex"
+NOTEBOOK_IMAGE="dukegcb/scipy-notebook"
 EXTERNAL_PORT="80"
 
 INTERNAL_PORT=$(($EXTERNAL_PORT+1))
