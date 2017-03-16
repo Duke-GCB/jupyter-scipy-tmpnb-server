@@ -50,5 +50,3 @@ docker run \
   --name=tmpnb \
   -v /var/run/docker.sock:/docker.sock \
   jupyter/tmpnb python orchestrate.py --image=$NOTEBOOK_IMAGE --command='start-notebook.sh "--NotebookApp.base_url={base_path} --ip=0.0.0.0 --port={port} --NotebookApp.trust_xheaders=True" --NotebookApp.token='"${NOTEBOOK_PASSWORD}"
-
-exit 0
