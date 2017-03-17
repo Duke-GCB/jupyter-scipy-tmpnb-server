@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export NOTEBOOK_IMAGE="dukegcb/scipy-notebook"
+export NOTEBOOK_IMAGE="jupyter/scipy-notebook"
 
 # Clear out any existing containers
 docker rm -f proxy tmpnb 2> /dev/null
