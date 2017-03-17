@@ -11,8 +11,7 @@ fi
 
 NOTEBOOK_PASSWORD=$1 # The password users will have to provide to access a notebook
 
-# Can use "jupyter/scipy-notebook" once they merge https://github.com/jupyter/docker-stacks/issues/353
-export NOTEBOOK_IMAGE="dukegcb/scipy-notebook"
+export NOTEBOOK_IMAGE="jupyter/scipy-notebook"
 export EXTERNAL_PORT="8000"
 
 export INTERNAL_PORT=$(($EXTERNAL_PORT+1))
@@ -50,5 +49,3 @@ docker run \
   --name=tmpnb \
   -v /var/run/docker.sock:/docker.sock \
   jupyter/tmpnb python orchestrate.py --image=$NOTEBOOK_IMAGE --command='start-notebook.sh "--NotebookApp.base_url={base_path} --ip=0.0.0.0 --port={port} --NotebookApp.trust_xheaders=True" --NotebookApp.token='"${NOTEBOOK_PASSWORD}"
-
-exit 0
